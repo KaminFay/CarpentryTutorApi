@@ -13,12 +13,11 @@ import (
 )
 
 func main() {
-	fmt.Println("Here is just a test print for main")
-	fmt.Println("Starting up the router handler")
+	establishDatabase()
 
 	router := mux.NewRouter()
 	router.HandleFunc("/", testHandler)
-
+	router.HandleFunc("/user/{username}", getUser)
 	server := &http.Server{
 		Handler:      router,
 		Addr:         ":8080",
@@ -45,6 +44,6 @@ func waitForShutdown(server *http.Server) {
 	defer cancel()
 	server.Shutdown(ctx)
 
-	fmt.Println("Shutdown")
+	serverShutdownLog()
 	os.Exit(0)
 }
