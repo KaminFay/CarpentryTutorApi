@@ -7,7 +7,6 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/gorilla/mux"
 	log "github.com/sirupsen/logrus"
 
 	_ "github.com/lib/pq"
@@ -17,7 +16,7 @@ const (
 	host     = "localhost"
 	port     = 5432
 	user     = "postgres"
-	password = "superSecretPassword"
+	password = "Fay89058"
 	dbname   = "carpentrytutor"
 )
 
@@ -70,34 +69,20 @@ func testHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func getUser(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	passedInID := vars["username"]
-	var currentUser User
-
-	sqlStatment := `SELECT user_id, first_name, last_name, username, role_id FROM users WHERE username = $1;`
-	fmt.Println(passedInID)
-	row := db.QueryRow(sqlStatment, passedInID)
-
-	switch err := row.Scan(&currentUser.UserID, &currentUser.FirstName, &currentUser.LastName,
-		&currentUser.Username, &currentUser.RoleID); err {
-	case sql.ErrNoRows:
-		getUserLog("api", "getUser", "No rows were returned!", WARN)
-	case nil:
-		err := json.NewEncoder(w).Encode(currentUser)
-
-		if err != nil {
-			getUserLog("api", "getUser", "We were unable to parse the JSON...", WARN)
-		} else {
-			getUserLog("api", "getUser", "JSON Was parsed A-ok!", INFO)
-		}
-	default:
-		getUserLog("api", "getUser", "Something went very wrong, panicking now!", PANIC)
-	}
+type Profile struct {
+	Email    string
+	Username string
+	ID       int
 }
 
-func createUser() {
-
+func testPOST(w http.ResponseWriter, r *http.Request) {
+	// profile := Profile{Email: "abhirockzz@gmail.com", Username: "abhirockzz", ID: 3}
+	user := User{Userid: 3, Firstname: "Kamin", Lastname: "Fay", Username: "kfay", Roleid: 4}
+	encoder := json.NewEncoder(w)
+	err := encoder.Encode(&user)
+	if err != nil {
+		panic(err)
+	}
 }
 
 func getClass() {

@@ -17,7 +17,9 @@ func main() {
 
 	router := mux.NewRouter()
 	router.HandleFunc("/", testHandler)
-	router.HandleFunc("/user/{username}", getUser)
+	router.HandleFunc("/createUser", createUser)
+	router.HandleFunc("/user/{userid}", getUser)
+	router.HandleFunc("/testing", testPOST)
 	server := &http.Server{
 		Handler:      router,
 		Addr:         ":8080",

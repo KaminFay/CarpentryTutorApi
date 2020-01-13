@@ -59,7 +59,21 @@ func testDatabaseConnectionLog(file string, logLocation string, logDescription s
 	}
 }
 
-func createUserLog() {
+func createUserLog(file string, logLocation string, logDescription string, logLevel ErrorLevel) {
+	switch logLevel {
+	case INFO:
+		log.WithFields(log.Fields{
+			"File":             file,
+			"FunctionLocation": logLocation,
+		}).Info(logDescription)
+	case PANIC:
+		log.WithFields(log.Fields{
+			"File":             file,
+			"FunctionLocation": logLocation,
+		}).Info(logDescription)
+	default:
+		fmt.Println("Hitting default for some reason")
+	}
 
 }
 

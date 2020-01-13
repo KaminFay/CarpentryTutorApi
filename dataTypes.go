@@ -2,9 +2,9 @@ package main
 
 // User data from within the user table
 type User struct {
-	UserID    int
-	FirstName string
-	LastName  string
-	Username  string
-	RoleID    int
+	Userid    int    `json:"userid"`
+	Firstname string `json:"firstname"`
+	Lastname  string `json:"lastname"`
+	Username  string `json:"username"`
+	Roleid    int    `json:"roleid"`
 }
