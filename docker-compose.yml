@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+    db:
+        image: postgres
+        container_name: carpentrytutor_db
+        volumes:
+            - ./tmp/database:/var/lib/postgresql/data
+        ports: 
+            - '5432:5432'
+        environment: 
+            - DEBUG=$DB_DEBUG
+            - DB_USER=$DB_USER
+            - DB_PASS=$DB_PASS
+            - DB_NAME=$DB_NAME
+            - DB_HOST=$DB_HOST
+        networks:
+            - fullstack
+
+    api:
+        image: golang:latest
+        container_name: carpentrytutor_api
+        volumes:
+            - .:/go/src/go-with-compose
+        working_dir: /go/src/go-with-compose
+        ports: 
+            - 8080:8080
+        command: go run .
+        depends_on: 
+            - db
+        networks:
+            - fullstack
+networks:
+    - fullstack
+
+networks:
+    fullstack:
+        driver: bridge

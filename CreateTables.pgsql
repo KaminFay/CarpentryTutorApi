@@ -3,7 +3,8 @@ CREATE TABLE IF NOT EXISTS users (
     first_name TEXT,
     last_name TEXT,
     username TEXT,
-    role_id INT
+    role_id INT,
+    passwd TEXT
 );
 
 CREATE TABLE IF NOT EXISTS classes(

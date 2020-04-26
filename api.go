@@ -6,18 +6,21 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	// "runtime"
 
 	log "github.com/sirupsen/logrus"
 
 	_ "github.com/lib/pq"
+	// vault "github.com/mch1307/vaultlib"
+	// "github.com/mitchellh/mapstructure"
 )
 
 const (
-	host     = "localhost"
+	host     = "carpentrytutor_db"
 	port     = 5432
 	user     = "postgres"
 	password = "Fay89058"
-	dbname   = "carpentrytutor"
+	dbname   = "carpentrytutor "
 )
 
 var db *sql.DB
@@ -29,6 +32,41 @@ func init() {
 	log.SetOutput(os.Stdout)
 
 	log.SetLevel(log.WarnLevel)
+
+	fmt.Printf("ADDR: %s, ROLE %s, SECRET %s, TOKEN %s\n", os.Getenv("VAULT_ADDR"), os.Getenv("VAULT_ROLEID"), os.Getenv("VAULT_SECRETID"), os.Getenv("VAULT_TOKEN"))
+
+	// vcConf := vault.NewConfig()
+
+	// // Create new client
+	// fmt.Printf("# goroutines before new cli %v\n", runtime.NumGoroutine())
+	// vaultCli, err := vault.NewClient(vcConf)
+	// if err != nil {
+	// 	fmt.Printf("DAMN: %v\n", vcConf)
+	// 	log.Fatal(err)
+	// }
+	// fmt.Printf("AppRole token: %v\n", vaultCli.GetTokenInfo().ID)
+	// fmt.Printf("Client status: %v\n", vaultCli.GetStatus())
+	// //Get the Vault secret kv_v1/path/my-secret
+	// fmt.Printf("# goroutines before getsecret %v\n", runtime.NumGoroutine())
+
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+
+	// kv, err := vaultCli.GetSecret("database/creds")
+	// if err != nil {
+	// 	fmt.Println(err)
+	// }
+
+	// fmt.Printf("Actual Value of secret: %v\n", kv)
+
+	// loginCredentials := Database{}
+	// mapstructure.Decode(kv.KV, &loginCredentials)
+
+	// fmt.Printf("Values once bound to struct: %v\n", loginCredentials)
+	// for k, v := range kv.KV {
+	// 	fmt.Printf("Secret: %v --- %v\n", k, v)
+	// }
 }
 
 func establishDatabase() {
@@ -47,32 +85,23 @@ func establishDatabase() {
 	}
 
 	testDatabaseConnectionLog("api.go", "establishDatabase", "Conection to the database was successfuly established", INFO)
+	dbError = db.Ping()
+	if dbError != nil {
+		testDatabaseConnectionLog("api.go", "establishDatabase", "Could not ping the database!!!!", PANIC)
+		fmt.Printf("%v\n", dbError)
+	}
 	return
 }
 
 func testHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(fmt.Sprintf("This is just a test printout")))
 
-	var firstName string
-	var lastName string
-	var id int
-
-	sqlStatment := `SELECT first_name, last_name, id FROM users WHERE id = '3';`
-	row := db.QueryRow(sqlStatment)
-	switch err := row.Scan(&firstName, &lastName, &id); err {
-	case sql.ErrNoRows:
-		w.Write([]byte(fmt.Sprintf("No rows were returned")))
-	case nil:
-		w.Write([]byte(fmt.Sprintf("FirstName = %s, LastName= %s, id = %d", firstName, lastName, id)))
-	default:
-		panic(err)
+	dbError := db.Ping()
+	if dbError != nil {
+		testDatabaseConnectionLog("api.go", "establishDatabase", "Could not ping the database!!!!", PANIC)
+	} else {
+		testDatabaseConnectionLog("api.go", "establishDatabase", "Good to Go!!!", INFO)
 	}
-}
-
-type Profile struct {
-	Email    string
-	Username string
-	ID       int
 }
 
 func testPOST(w http.ResponseWriter, r *http.Request) {

@@ -1,0 +1,32 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "/Users/kamin/carpentrytutor"
+		}
+	],
+	"settings": {
+		"workbench.colorCustomizations": {
+			"activityBar.background": "#c3d699",
+			"activityBar.activeBorder": "#4994b6",
+			"activityBar.foreground": "#15202b",
+			"activityBar.inactiveForeground": "#15202b99",
+			"activityBarBadge.background": "#4994b6",
+			"activityBarBadge.foreground": "#15202b",
+			"titleBar.activeBackground": "#adc775",
+			"titleBar.inactiveBackground": "#adc77599",
+			"titleBar.activeForeground": "#15202b",
+			"titleBar.inactiveForeground": "#15202b99",
+			"statusBar.background": "#adc775",
+			"statusBarItem.hoverBackground": "#97b851",
+			"statusBar.foreground": "#15202b",
+			"panel.border": "#c3d699",
+			"sideBar.border": "#c3d699",
+			"editorGroup.border": "#c3d699",
+			"tab.activeBorder": "#c3d699"
+		},
+		"peacock.color": "#adc775"
+	}
+}

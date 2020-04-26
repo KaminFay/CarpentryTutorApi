@@ -32,6 +32,7 @@ func getUser(w http.ResponseWriter, r *http.Request) {
 
 	default:
 		getUserLog("api", "getUser", "Something went very wrong, panicking now!", PANIC)
+		fmt.Printf("%v\n", err)
 	}
 }
 
@@ -53,15 +54,14 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 	// user.Userid = getHighestUserID()
 	// log.Printf("We got this back: %+v\n", user)
 
-	sqlStatment := `INSERT INTO users (user_id, first_name, last_name, username, role_id) VALUES (DEFAULT, $1, $2, $3, $4);`
-	_, err = db.Exec(sqlStatment, user.Firstname, user.Lastname, user.Username, user.Roleid)
+	sqlStatement := `INSERT INTO users (user_id, first_name, last_name, username, role_id) VALUES (DEFAULT, $1, $2, $3, $4);`
+	_, err = db.Exec(sqlStatement, user.Firstname, user.Lastname, user.Username, user.Roleid)
 
 	if err != nil {
 		panic(err)
 	} else {
 		log.Printf("And it was inserts!\n")
 	}
-
 }
 
 /* Deprecated as we just use postgres to auto increment the value of the new users ID.

@@ -8,3 +8,12 @@ type User struct {
 	Username  string `json:"username"`
 	Roleid    int    `json:"roleid"`
 }
+
+// Database data that get's pulled from vault.
+type Database struct {
+	DB   string `json:"db" mapstructure:"dbname"`
+	Host string `json:"host" mapstructure:"host"`
+	Port string    `json:"port" mapstructure:"port"`
+	Pass string `json:"pass" mapstructure:"pass"`
+	User string `json:"user" mapstructure:"user"`
+}

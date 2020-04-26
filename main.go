@@ -16,7 +16,7 @@ func main() {
 	establishDatabase()
 
 	router := mux.NewRouter()
-	router.HandleFunc("/", testHandler)
+	router.HandleFunc("/dbPing", testHandler)
 	router.HandleFunc("/createUser", createUser)
 	router.HandleFunc("/user/{userid}", getUser)
 	router.HandleFunc("/testing", testPOST)
